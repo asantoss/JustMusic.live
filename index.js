@@ -126,14 +126,17 @@ http.listen(process.env.PORT || 3000, () =>
 var io = require('socket.io')(http);
 // io.origins('*:*');
 
-io.of('/rooms').on('connection', (socket) => {
+var room = io.of('/rooms').on('connection', (socket) => {
 	socket.on('JOIN_ROOM', function (data) {
 		const { roomId } = data;
 		socket.join(`room${roomId}`);
 	});
+	socket.on('HI', (name) => {
+		console.log(name);
+	});
+
 	//socket is waiting for that connection on the client side
 	//once it get then "chat" message it will call the function
-
 	//! save the messages to the data base
 	socket.on('SEND_MESSAGE', function (data) {
 		db.message.create({
@@ -149,16 +152,13 @@ io.of('/rooms').on('connection', (socket) => {
 		// this is broadcasting the message once a person is typing but not to the person typing the message
 		socket.emit('typing', data);
 	});
-});
-
-io.on('connection', (socket) => {
 	socket.on('REQUEST_PLAYER_STATE', (data) => {
-		io.emit('SYNC_PLAYER', data);
+		room.emit('SYNC_PLAYER', data);
 	});
 	socket.on('SEND_PLAYER_STATE', (data) => {
 		const { socketId, player, roomId } = data;
 		if (roomId) {
-			io.emit('RECEIVE_PLAYER_STATE', { player, roomId });
+			room.emit('RECEIVE_PLAYER_STATE', { player, roomId });
 		}
 		io.to(socketId).emit('RECEIVE_PLAYER_STATE', { player, socketId });
 	});

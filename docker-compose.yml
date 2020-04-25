@@ -9,8 +9,9 @@ services:
     build:
       context: .
     ports:
-      - '5000:5000'
-    command: npm start
+      - '4000:4000'
+    command: npm run dev
+    stdin_open: true
     links:
       - db
   db:
