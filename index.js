@@ -12,6 +12,9 @@ const authServer = require('./routes/authServer');
 const createUsers = require('./fakerData');
 const path = require('path');
 const app = express();
+
+db.sequelize.sync({ force: true });
+
 const myStore = new SequelizeStore({
 	db: db.sequelize,
 });

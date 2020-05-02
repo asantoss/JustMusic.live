@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   server:
     depends_on:
@@ -9,20 +9,21 @@ services:
     build:
       context: .
     ports:
-      - '4000:4000'
+      - "4000:4000"
     command: npm run dev
-    stdin_open: true
     links:
       - db
   db:
     image: postgres
+    user: postgres
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
     ports:
-      - '5561:5432'
+      - "5561:5432"
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - /pgdata:/var/lib/postgresql/data
+
   client:
     env_file: ./client/.env
     volumes:
@@ -30,7 +31,7 @@ services:
     build:
       context: ./client
     ports:
-      - '80:3000'
+      - "80:3000"
     command: npm start
     links:
       - server

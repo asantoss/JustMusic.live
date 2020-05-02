@@ -116,10 +116,9 @@ class Footer extends React.Component {
 		this.socket.on('RECEIVE_PLAYER_STATE', (data) => {
 			console.log(data);
 			const { player: hostPlayer, roomId, socketId } = data;
-			if (this.props.user.room && this.props.user.room.subscribed && roomId) {
+			if (this.props.user?.room?.subscribed && roomId) {
 				this.props.setPlayer(hostPlayer);
 				const getUris = (queue) => {
-					debugger;
 					if (queue['track']) {
 						return queue.map((s) => s.track.uri);
 					}

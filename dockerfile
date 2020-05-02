@@ -11,6 +11,6 @@ COPY . .
 
 EXPOSE 4000
 RUN npm i -g nodemon
-CMD npx sequelize-cli db:create | npx sequelize db:migrate
+CMD npx sequelize-cli db:create
 
 ENTRYPOINT ["npm", "run", "dev"]
