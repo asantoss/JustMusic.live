@@ -8,6 +8,9 @@ module.exports = {
 		host: process.env.DB_HOST,
 		dialect: 'postgres',
 		logging: false,
+		define: {
+			timestamps: true,
+		},
 	},
 	test: {
 		username: process.env.PG_USER || 'postgres',
